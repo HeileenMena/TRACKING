@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alta de Números de Folios</title>
+    <style>
+        /* Estilos CSS para la página */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #ffffff;
+            color: #fff;
+            padding: 30px 0;
+            text-align: center;
+            position: fixed; /* Fijar la barra de inicio */
+            width: 100%;
+            z-index: 700; /* Asegurar que esté sobre cualquier otro contenido */
+            top: 0; /* Pegar la barra de inicio en la parte superior */
+            transition: top 0.3s; /* Agregar una transición suave al movimiento */
+        }
+        .container {
+            max-width: 600px;
+            margin: 200px auto; /* Agregar margen superior para que el contenido no se superponga con la barra de inicio */
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .content {
+            height: 1000px; /* Agregar contenido suficiente para que se pueda hacer scroll */
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <div class="header" id="header">
+        <img src="logo_tec.png" alt="Logo de la Empresa" style="max-width: 700px;" class="centered-image">
+    </div>
+    <div class="container">
+        <h2>Alta de Números de Folio</h2>
+        <form id="altaForm">
+            <label for="trackingNumber">Número de Folio:</label>
+            <input type="text" id="trackingNumber" name="trackingNumber" placeholder="Ingrese el folio de la requisición" required>
+            <label for="trackingNumber">Departamento:</label>
+            <select id="Departamento" name="Departamento" required>
+                <option value="">Seleccionar al departamento de la requisición</option>
+                <option value="Sistemas">Sistemas</option>
+                <option value="IGE">IGE</option>
+                <option value="Metal mecánica">Metal mecánica</option>
+                <option value="Manofactura">Manofactura</option>
+                <!-- Agregar más opciones según sea necesario -->
+            </select>
+            <button type="submit">Dar de Alta</button>
+            <button onclick="location.href='file:///C:/Users/heimena/Desktop/TRACKING/home.html'">Menú</button>
+        </form>
+        <div id="message"></div>
+    </div>
+    <script>
+        // JavaScript para ocultar o mostrar la barra de inicio al hacer scroll
+        var lastScrollTop = 0;
+        var header = document.getElementById("header");
+
+        window.addEventListener("scroll", function() {
+            var currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+            if (currentScroll > lastScrollTop) {
+                header.style.top = "-80px"; // Ocultar la barra de inicio al hacer scroll hacia abajo
+            } else {
+                header.style.top = "0"; // Mostrar la barra de inicio al hacer scroll hacia arriba
+            }
+            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // Para dispositivos móviles
+        });
+    </script>
+    <script>
+        document.getElementById("altaForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Evitar que el formulario se envíe de manera tradicional
+
+            var formData = new FormData(this); // Obtener los datos del formulario
+
+            // Realizar una solicitud POST al servidor para dar de alta el número de seguimiento
+            fetch('/alta', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Mostrar el mensaje de respuesta del servidor
+                document.getElementById("message").textContent = data.message;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
