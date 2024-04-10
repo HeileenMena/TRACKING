@@ -8,63 +8,28 @@
 </head>
 <body>
     <div class="header" id="header">
-        <img src="logo_tec.png" alt="Logo de la Empresa" style="max-width: 700px;" class="centered-image">
+        <img src="C:\Users\heimena\Desktop\TRACKING\img\logo_tec.png" alt="Logo de la Empresa" style="max-width: 700px;" class="centered-image">
     </div>
     <div class="container">
         <h2>Alta de Números de Folio</h2>
         <form id="altaForm">
-            <label for="trackingNumber">Número de Folio:</label>
-            <input type="text" id="trackingNumber" name="trackingNumber" placeholder="Ingrese el folio de la requisición" required>
-            <label for="trackingNumber">Departamento:</label>
-            <select id="Departamento" name="Departamento" required>
-                <option value="">Seleccionar al departamento de la requisición</option>
-                <option value="Sistemas">Sistemas</option>
-                <option value="IGE">IGE</option>
-                <option value="Metal mecánica">Metal mecánica</option>
-                <option value="Manofactura">Manofactura</option>
-                <!-- Agregar más opciones según sea necesario -->
-            </select>
-            <button type="submit">Dar de Alta</button>
-            <button onclick="location.href='file:///C:/Users/heimena/Desktop/TRACKING/home.html'">Menú</button>
-        </form>
-        <div id="message"></div>
+        <label for="trackingNumber">Número de Folio:</label>
+        <input type="text" id="trackingNumber" name="trackingNumber" placeholder="Ingrese el folio de la requisición" required>
+        <label for="trackingNumber">Departamento:</label>
+        <select id="Departamento" name="Departamento" required>
+            <option value="">Seleccionar al departamento de la requisición</option>
+            <option value="Sistemas">Sistemas</option>
+            <option value="IGE">IGE</option>
+            <option value="Metal mecánica">Metal mecánica</option>
+            <option value="Manofactura">Manofactura</option>
+            <!-- Agregar más opciones según sea necesario -->
+        </select>
+        <button type="button" id="guardarDatos">Guardar Datos</button>
+        <button onclick="location.href='file:///C:/Users/heimena/Desktop/TRACKING/home.html'">Menú</button>
+    </form>
+    <div id="message"></div>
     </div>
-    <script>
-        // JavaScript para ocultar o mostrar la barra de inicio al hacer scroll
-        var lastScrollTop = 0;
-        var header = document.getElementById("header");
-
-        window.addEventListener("scroll", function() {
-            var currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-            if (currentScroll > lastScrollTop) {
-                header.style.top = "-80px"; // Ocultar la barra de inicio al hacer scroll hacia abajo
-            } else {
-                header.style.top = "0"; // Mostrar la barra de inicio al hacer scroll hacia arriba
-            }
-            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // Para dispositivos móviles
-        });
-    </script>
-    <script>
-        document.getElementById("altaForm").addEventListener("submit", function(event) {
-            event.preventDefault(); // Evitar que el formulario se envíe de manera tradicional
-
-            var formData = new FormData(this); // Obtener los datos del formulario
-
-            // Realizar una solicitud POST al servidor para dar de alta el número de seguimiento
-            fetch('/alta', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Mostrar el mensaje de respuesta del servidor
-                document.getElementById("message").textContent = data.message;
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        });
-    </script>
+    <script src="script.js"></script>
     <footer>
         &copy;2024 Heileen Mena | All Rights Reserved
     </footer>

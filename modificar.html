@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="header" id="header">
-        <img src="logo_tec.png" alt="Logo de la Empresa" style="max-width: 700px;" class="centered-image">
+        <img src="C:\Users\heimena\Desktop\TRACKING\img\logo_tec.png" alt="Logo de la Empresa" style="max-width: 700px;" class="centered-image">
     </div>
     <div class="container">
         <h2>Modificar Estado - Tracking de Documentos</h2>
@@ -58,43 +58,6 @@
             </tbody>
         </table>
     </div>
-
-    <script>
-        // JavaScript para ocultar o mostrar la barra de inicio al hacer scroll
-        var lastScrollTop = 0;
-        var header = document.getElementById("header");
-
-        window.addEventListener("scroll", function() {
-            var currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-            if (currentScroll > lastScrollTop) {
-                header.style.top = "-80px"; // Ocultar la barra de inicio al hacer scroll hacia abajo
-            } else {
-                header.style.top = "0"; // Mostrar la barra de inicio al hacer scroll hacia arriba
-            }
-            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // Para dispositivos móviles
-        });
-    </script>
-    <script>
-        document.getElementById("modifyForm").addEventListener("submit", function(event) {
-            event.preventDefault(); // Evitar que el formulario se envíe de manera tradicional
-
-            var formData = new FormData(this); // Obtener los datos del formulario
-
-            // Realizar una solicitud PUT al servidor para modificar el estado del documento
-            fetch('/modificar', {
-                method: 'PUT',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Mostrar el mensaje de respuesta del servidor
-                document.getElementById("message").textContent = data.message;
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        });
-    </script>
     <footer>
         &copy;2024 Heileen Mena | All Rights Reserved
     </footer>

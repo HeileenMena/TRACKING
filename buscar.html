@@ -8,51 +8,21 @@
 </head>
 <body>
     <div class="header" id="header">
-        <img src="logo_tec.png" alt="Logo de la Empresa" style="max-width: 700px;" class="centered-image">
+        <img src="C:\Users\heimena\Desktop\TRACKING\img\logo_tec.png" alt="Logo de la Empresa" style="max-width: 700px;" class="centered-image">
     </div>
     <div class="container">
         <h2>Tracking de Documentos</h2>
         <input type="text" id="trackingNumber" placeholder="Ingrese el número de folio">
         <button onclick="trackDocument()">Buscar</button>
         <button onclick="location.href='file:///C:/Users/heimena/Desktop/TRACKING/home.html'">Menú</button>
-        <div id="result"></div>
+        <div id="result">
+        </div>
+        <div class="image-container" id="imageContainer">
+            <!-- Aquí se mostrarán las imágenes -->
+        </div>
     </div>
-    <script>
-        // JavaScript para ocultar o mostrar la barra de inicio al hacer scroll
-        var lastScrollTop = 0;
-        var header = document.getElementById("header");
 
-        window.addEventListener("scroll", function() {
-            var currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-            if (currentScroll > lastScrollTop) {
-                header.style.top = "-80px"; // Ocultar la barra de inicio al hacer scroll hacia abajo
-            } else {
-                header.style.top = "0"; // Mostrar la barra de inicio al hacer scroll hacia arriba
-            }
-            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // Para dispositivos móviles
-        });
-    </script>
-    <script>
-        // Función para simular el seguimiento del documento
-        function trackDocument() {
-            var trackingNumber = document.getElementById("trackingNumber").value;
-            var resultElement = document.getElementById("result");
-
-            // Simulación de datos de seguimiento
-            var trackingData = {
-                "123456789": "En tránsito",
-                "987654321": "Entregado",
-                "456789123": "Listo para recoger",
-                // Agrega más números de seguimiento y estados aquí
-            };
-
-            if (trackingData.hasOwnProperty(trackingNumber)) {
-                resultElement.textContent = "Estado del documento: " + trackingData[trackingNumber];
-            } else {
-                resultElement.textContent = "Número de folio no encontrado";
-            }
-        }
-    </script>
+    <script src="script.js"></script>
     <footer>
         &copy;2024 Heileen Mena | All Rights Reserved
     </footer>
