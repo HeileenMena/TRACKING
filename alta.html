@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="header" id="header">
-        <img src="C:\Users\heimena\Desktop\TRACKING\img\logo_tec.png" alt="Logo de la Empresa" style="max-width: 700px;" class="centered-image">
+        <img src="C:\Users\heimena\Desktop\TRACKING\img\logo_tec.png" alt="Logo de la Empresa" class="centered-image">
     </div>
     <div class="container">
         <h2>Alta de Números de Folio</h2>
@@ -16,8 +16,8 @@
         <label for="trackingNumber">Número de Folio:</label>
         <input type="text" id="trackingNumber" name="trackingNumber" placeholder="Ingrese el folio de la requisición" required>
         <label for="trackingNumber">Departamento:</label>
-        <select id="Departamento" name="Departamento" required>
-            <option value="">Seleccionar al departamento de la requisición</option>
+        <select id="Departamento" name="Departamento" required="" title="Seleccionar el departamento de la requisición">
+            <option value="">Seleccionar departamento</option>
             <option value="Sistemas">Sistemas</option>
             <option value="IGE">IGE</option>
             <option value="Metal mecánica">Metal mecánica</option>
@@ -25,7 +25,7 @@
             <!-- Agregar más opciones según sea necesario -->
         </select>
         <button type="button" id="guardarDatos">Guardar Datos</button>
-        <button onclick="location.href='file:///C:/Users/heimena/Desktop/TRACKING/home.html'">Menú</button>
+        <button type="button" onclick="location.href='file:///C:/Users/heimena/Desktop/TRACKING/home.html'">Menú</button>
     </form>
     <div id="message"></div>
     </div>
