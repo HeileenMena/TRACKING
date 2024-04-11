@@ -230,6 +230,14 @@ document.addEventListener("DOMContentLoaded", function() {
         modificarEstado("Direccion");
     });
 
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Agregar controladores de eventos a los botones
+    document.getElementById("Direccion").addEventListener("click", function() {
+        modificarEstado("Direccion");
+    });
+
     document.getElementById("Compras").addEventListener("click", function() {
         modificarEstado("Compras");
     });
@@ -251,6 +259,29 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("Planeacion").addEventListener("click", function() {
+        modificarEstado("Planeacion");
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("Compras").addEventListener("click", function() {
+        modificarEstado("Compras");
+    });
+
+    document.getElementById("Comprado").addEventListener("click", function() {
+        modificarEstado("Comprado");
+    });
+
+    document.getElementById("Enviado").addEventListener("click", function() {
+        modificarEstado("Enviado");
+    });
+
+    document.getElementById("Recibido").addEventListener("click", function() {
+        modificarEstado("Recibido");
+    });
+});
 
 // Función para modificar el estado del folio
 function modificarEstado(nuevoEstado) {
