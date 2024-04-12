@@ -300,26 +300,28 @@ function modificarEstado(nuevoEstado) {
             // Mostrar mensaje de éxito
             document.getElementById("message").textContent = "Estado del folio modificado correctamente a: " + nuevoEstado;
 
-        } else {
-	    if (estados[nuevoEstado] === estados[folio.estado]) {
+        } else if (estados[nuevoEstado] === estados[folio.estado]) {
+            // Mostrar mensaje de éxito si el estado es el mismo
+            document.getElementById("message").textContent = "Estado del folio es el mismo que el que se tiene registrado";
+
+        } else if (estados[nuevoEstado] > estados[folio.estado]) {
+            // Mostrar mensaje de error si el nuevo estado no es válido
+            document.getElementById("message").textContent = "El estado seleccionado no corresponde al siguiente proceso";
+            // Mostrar cuadro de confirmación
+            if (window.confirm("¿Desea completar los registros faltantes para este estado?")) {
+                // Modificar el estado del folio
+                folio.estado = nuevoEstado;
+                // Actualizar los folios en el almacenamiento local
+                localStorage.setItem('folios', JSON.stringify(folios));
                 // Mostrar mensaje de éxito
-                document.getElementById("message").textContent = "Estado del folio es el mismo que el que se tiene registrado";
+                document.getElementById("message").textContent = "Estado del folio modificado correctamente a: " + nuevoEstado;
             } else {
-                // Mostrar mensaje de error si el nuevo estado no es válido
-                document.getElementById("message").textContent = "El estado seleccionado no corresponde al siguiente proceso";
-                // Mostrar cuadro de confirmación
-                if (window.confirm("¿Desea completar los registros faltantes para este estado?")) {
-                    // Modificar el estado del folio
-                    folio.estado = nuevoEstado;
-                    // Actualizar los folios en el almacenamiento local
-                    localStorage.setItem('folios', JSON.stringify(folios));
-                    // Mostrar mensaje de éxito
-                    document.getElementById("message").textContent = "Estado del folio modificado correctamente a: " + nuevoEstado;
-                } else {
-                    // Mostrar mensaje de cancelación
-                    document.getElementById("message").textContent = "Operación cancelada"; 
-                }
+                // Mostrar mensaje de cancelación
+                document.getElementById("message").textContent = "Operación cancelada"; 
             }
+        } else {
+            // Mostrar mensaje de error si el nuevo estado es anterior al estado actual
+            document.getElementById("message").textContent = "El estado seleccionado no corresponde al proceso actual";
         }
     } else {
         // Mostrar mensaje de error si el folio no se encuentra
