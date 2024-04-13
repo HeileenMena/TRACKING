@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="Estilos.css" rel="stylesheet" type="text/css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alta de Números de Folios</title>
-    <link href="Estilos.css" rel="stylesheet" type="text/css">
+    <title>Tracking de requisiciones</title>
 </head>
 <body>
 	// Encabezado de la página
@@ -22,7 +22,7 @@
                 <li class="nav-item has-submenu">
                     <a href="#">Control interno</a>
                     <ul class="submenu">
-                        <li><a href="file:///C:/Users/heimena/Desktop/TRACKING/PlaneacionLogin.html">Planeación</a></li>
+                        <li><a href="file:///C:/Users/heimena/Desktop/TRACKING/Planeacion.html">Planeacion</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -31,26 +31,24 @@
             </ul>
         </nav>
     </div>
-    <div class="container">
-        <h2>Alta de Números de Folio</h2>
-        <form id="altaForm">
-        <label for="trackingNumber">Número de Folio:</label>
-        <input type="text" id="trackingNumber" name="trackingNumber" placeholder="Ingrese el folio de la requisición" required>
-        <label for="trackingNumber">Departamento:</label>
-        <select id="Departamento" name="Departamento" required="" title="Seleccionar el departamento de la requisición">
-            <option value="">Seleccionar departamento</option>
-            <option value="Sistemas">Sistemas</option>
-            <option value="IGE">IGE</option>
-            <option value="Metal mecánica">Metal mecánica</option>
-            <option value="Manofactura">Manofactura</option>
-            <!-- Agregar más opciones según sea necesario -->
-        </select>
-        <button type="button" id="guardarDatos">Guardar Datos</button>
-        <button type="button" onclick="location.href='file:///C:/Users/heimena/Desktop/TRACKING/home.html'">Menú</button>
-    </form>
-    <div id="message"></div>
+
+	// Cuerpo de la página
+    <div class="container" id="login-form">
+        <h2>Iniciar Sesión</h2>
+        <form id="loginFormPlan">
+            <label for="username">Usuario:</label>
+            <input type="text" id="username" placeholder="Ingrese el número usuario" required><br><br>
+            <label for="password">Contraseña:</label><br>
+            <input type="password" id="password" name="password" placeholder="Ingrese la contraseña" required><br><br>
+            <button type="submit" id="loginButton">Iniciar Sesión</button>
+            <button type="button" onclick="location.href='home.html'">Menú</button>
+        </form>
+        <div id="message"></div>
     </div>
+
     <script src="script.js"></script>
+
+	// Pie de página
     <footer>
         &copy;2024 Heileen Mena | All Rights Reserved
     </footer>

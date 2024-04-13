@@ -18,13 +18,83 @@ body {
         transition: top 0.3s; /* Agregar una transición suave al movimiento */
 }
 
+.navbar {
+    background-color: #09134E;
+    padding: 10px 0;
+    text-align: center; /* Centrar las opciones del menú */
+}
+
+.navbar-nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Centrar horizontalmente los elementos */
+}
+
+.nav-item {
+    margin-right: 20px;
+}
+
+.nav-item:last-child {
+    margin-right: 0;
+}
+
+.nav-item a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 20px; /* Agregar espaciado interno */
+    transition: background-color 0.3s; /* Agregar transición suave */
+}
+
+.submenu {
+  display: none;
+  position: absolute;
+  background-color: #09124E;
+  margin-top: 15px;
+}
+
+.has-submenu:hover .submenu {
+  display: block;
+}
+
+.submenu li {
+  display: block;
+  margin-bottom: 15px;
+}
+
+.submenu li a {
+  padding: 10px 20px;
+  color: #fff;
+}
+
+.submenu li a:hover {
+  background-color: #C11627;
+}
+
+.nav-item a:hover {
+    background-color: #ff0000; /* Cambiar el color de fondo al pasar el mouse */
+    border-radius: 20px 20px 0 0; /* Redondear las esquinas superiores */
+}
+
+.nav-item:first-child a:hover {
+    border-radius: 20px 0 0 0; /* Redondear solo la esquina superior izquierda del primer elemento */
+}
+
+.nav-item:last-child a:hover {
+    border-radius: 0 20px 0 0; /* Redondear solo la esquina superior derecha del último elemento */
+}
+
+
 .container {
-	max-width: 600px;
+	max-width: 1000px;
         margin: 200px auto;
         padding: 20px;
         border: 1px solid #ccc;
         border-radius: 5px;
         text-align: center;
+
 }
 
 .image-container img {
@@ -34,7 +104,7 @@ body {
 }
 
 .centered-image {
-	max-width: 700px;
+	max-width: 600px;
         display: block;
         margin: 0 auto; /* Esto centra horizontalmente la imagen */
 }
@@ -60,6 +130,20 @@ input[type="password"], select {
 	padding: 10px;
         margin-bottom: 10px;
         box-sizing: border-box;
+}
+
+input[type="date"], select {
+	width: 100%;
+	padding: 10px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
 }
 
 #result {
@@ -92,4 +176,9 @@ th, td {
 
 th {
 	background-color: #f2f2f2;
+}
+
+.column {
+    flex: 1; /* Que cada columna ocupe un tercio del espacio disponible */
+    margin: 0 10px; /* Agregar un margen entre las columnas */
 }

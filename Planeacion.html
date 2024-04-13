@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="Estilos.css" rel="stylesheet" type="text/css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alta de Números de Folios</title>
-    <link href="Estilos.css" rel="stylesheet" type="text/css">
+    <title>Tracking de requisiciones</title>
 </head>
 <body>
 	// Encabezado de la página
@@ -22,7 +22,7 @@
                 <li class="nav-item has-submenu">
                     <a href="#">Control interno</a>
                     <ul class="submenu">
-                        <li><a href="file:///C:/Users/heimena/Desktop/TRACKING/PlaneacionLogin.html">Planeación</a></li>
+                        <li><a href="file:///C:/Users/heimena/Desktop/TRACKING/PlaneacionLogin.html">Planeacion</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -31,26 +31,51 @@
             </ul>
         </nav>
     </div>
-    <div class="container">
-        <h2>Alta de Números de Folio</h2>
-        <form id="altaForm">
-        <label for="trackingNumber">Número de Folio:</label>
-        <input type="text" id="trackingNumber" name="trackingNumber" placeholder="Ingrese el folio de la requisición" required>
-        <label for="trackingNumber">Departamento:</label>
-        <select id="Departamento" name="Departamento" required="" title="Seleccionar el departamento de la requisición">
+
+	// Cuerpo de la página
+<div class="container">
+    <h2>Control Interno - Departamento de Planeación</h2>
+    <form id="controlInternoForm">
+        <label for="fechaRecepcion">Fecha de recepción de la requisición:</label>
+        <input type="date" id="fechaRecepcion" required><br>
+
+        <label for="numeroRequisicion">No. de requisición:</label>
+        <input type="text" id="numeroRequisicion" required><br>
+
+        <label>Entrega por parte de subdirección:</label>
+        <input type="checkbox" id="entregaSubdireccion"><br>
+
+        <label>Recibo por parte de subdirección:</label>
+        <input type="checkbox" id="reciboSubdireccion"><br>
+
+        <label>Entrega por parte de dirección:</label>
+        <input type="checkbox" id="entregaDireccion"><br>
+
+        <label>Recibo por parte de dirección:</label>
+        <input type="checkbox" id="reciboDireccion"><br>
+
+        <label for="observaciones">Observaciones:</label>
+        <textarea id="observaciones" required></textarea><br>
+
+        <select id="departamentoEntregado" name="departamentoEntregado" required>
             <option value="">Seleccionar departamento</option>
             <option value="Sistemas">Sistemas</option>
             <option value="IGE">IGE</option>
             <option value="Metal mecánica">Metal mecánica</option>
             <option value="Manofactura">Manofactura</option>
             <!-- Agregar más opciones según sea necesario -->
-        </select>
-        <button type="button" id="guardarDatos">Guardar Datos</button>
-        <button type="button" onclick="location.href='file:///C:/Users/heimena/Desktop/TRACKING/home.html'">Menú</button>
+        </select><br><br>
+
+        <button type="button" id="guardarRegistro">Guardar Registro</button>
+        <button onclick="location.href='file:///C:/Users/heimena/Desktop/TRACKING/PlaneacionModificar.html'">Modificar Registros</button>
     </form>
-    <div id="message"></div>
-    </div>
-    <script src="script.js"></script>
+</div>
+
+    
+
+<script src="script.js"></script>
+
+	// Pie de página
     <footer>
         &copy;2024 Heileen Mena | All Rights Reserved
     </footer>

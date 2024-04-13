@@ -15,6 +15,27 @@
         });
 
 
+// Agregar eventos para mostrar/ocultar submenús en pantallas pequeñas
+document.addEventListener("DOMContentLoaded", function() {
+    var menuItems = document.querySelectorAll('.menu-list > li');
+
+    for (var i = 0; i < menuItems.length; i++) {
+        menuItems[i].addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) {
+                var submenu = this.querySelector('.sub-menu');
+                if (submenu) {
+                    e.preventDefault();
+                    if (submenu.style.display === 'block') {
+                        submenu.style.display = 'none';
+                    } else {
+                        submenu.style.display = 'block';
+                    }
+                }
+            }
+        });
+    }
+});
+
 
 // Función para rastrear el documento
 function trackDocument() {
@@ -167,6 +188,33 @@ var users = {
     "Planeacion": { username: "Planeacion", password: "fR*6j@2z" }
 };
 
+// Login para control interno de planeación
+document.addEventListener("DOMContentLoaded", function() {
+    // Referencia al formulario de inicio de sesión
+    var loginForm = document.getElementById("loginFormPlan");
+
+    // Agregar un controlador de eventos para el evento submit del formulario
+    loginForm.addEventListener("submit", function(event) {
+        event.preventDefault(); // Evitar que el formulario se envíe de forma tradicional
+
+        // Obtener los valores de usuario y contraseña ingresados por el usuario
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+
+        // Verificar si el usuario y la contraseña coinciden con los permitidos para Planeacion
+        if (username === "Planeacion" && password === "fR*6j@2z") {
+            // Si las credenciales son correctas, redirigir a la página de inicio de Planeacion
+            window.location.href = "file:///C:/Users/heimena/Desktop/TRACKING/Planeacion.html";
+        } else {
+            // Si las credenciales son incorrectas, mostrar un mensaje de error
+            document.getElementById("message").textContent = "Credenciales incorrectas. Por favor, inténtelo de nuevo.";
+        }
+    });
+});
+
+
+
+// Login en la página de modificar
 document.addEventListener("DOMContentLoaded", function() {
     // Agregar un controlador de eventos al formulario para el evento submit
     document.getElementById("loginForm").addEventListener("submit", function(event) {
@@ -308,7 +356,7 @@ function modificarEstado(nuevoEstado) {
             // Mostrar mensaje de error si el nuevo estado no es válido
             document.getElementById("message").textContent = "El estado seleccionado no corresponde al siguiente proceso";
             // Mostrar cuadro de confirmación
-            if (window.confirm("¿Desea completar los registros faltantes para este estado?")) {
+            if (window.confirm("¿Desea completar los registros faltantes para este folio?")) {
                 // Modificar el estado del folio
                 folio.estado = nuevoEstado;
                 // Actualizar los folios en el almacenamiento local
@@ -327,4 +375,111 @@ function modificarEstado(nuevoEstado) {
         // Mostrar mensaje de error si el folio no se encuentra
         document.getElementById("message").textContent = "Folio no encontrado";
     }
+}
+
+// Guardar la información del formulario de planeación
+document.addEventListener("DOMContentLoaded", function() {
+    // Obtener referencia al botón "Guardar Registro"
+    var guardarRegistroButton = document.getElementById("guardarRegistro");
+
+    // Agregar un controlador de eventos al botón "Guardar Registro"
+    guardarRegistroButton.addEventListener("click", function() {
+        // Obtener los datos del formulario
+        var formData = obtenerDatosFormulario();
+
+        // Obtener registros existentes del localStorage (si los hay)
+        var registros = JSON.parse(localStorage.getItem('registros')) || [];
+
+        // Agregar el nuevo registro a la lista
+        registros.push(formData);
+
+        // Guardar la lista actualizada en el localStorage
+        localStorage.setItem('registros', JSON.stringify(registros));
+
+        // Limpiar el formulario después de guardar el registro
+        limpiarFormulario();
+
+        // Mostrar un mensaje de éxito
+        alert("Registro guardado correctamente.");
+    });
+
+    // Función para obtener los datos del formulario
+    function obtenerDatosFormulario() {
+        var data = {
+            fechaRecepcion: document.getElementById("fechaRecepcion").value,
+            numeroRequisicion: document.getElementById("numeroRequisicion").value,
+            entregaSubdireccion: document.getElementById("entregaSubdireccion").checked,
+            reciboSubdireccion: document.getElementById("reciboSubdireccion").checked,
+            entregaDireccion: document.getElementById("entregaDireccion").checked,
+            reciboDireccion: document.getElementById("reciboDireccion").checked,
+            observaciones: document.getElementById("observaciones").value,
+            departamentoEntregado: document.getElementById("departamentoEntregado").value
+        };
+        return data;
+    }
+
+    // Función para limpiar el formulario después de guardar el registro
+    function limpiarFormulario() {
+        document.getElementById("fechaRecepcion").value = "";
+        document.getElementById("numeroRequisicion").value = "";
+        document.getElementById("entregaSubdireccion").checked = false;
+        document.getElementById("reciboSubdireccion").checked = false;
+        document.getElementById("entregaDireccion").checked = false;
+        document.getElementById("reciboDireccion").checked = false;
+        document.getElementById("observaciones").value = "";
+        document.getElementById("departamentoEntregado").value = "";
+    }
+});
+
+// Modificar - ver registros
+document.addEventListener("DOMContentLoaded", function() {
+    mostrarRegistros();
+});
+
+// admin_registros.js
+
+// Función para cargar los registros desde el almacenamiento local y mostrarlos en la tabla
+function cargarRegistros() {
+    var registros = JSON.parse(localStorage.getItem('registros')) || [];
+    var tbody = document.getElementById('registrosBody');
+    tbody.innerHTML = '';
+
+    if (registros.length === 0) {
+        document.getElementById('noRegistrosMessage').style.display = 'block';
+    } else {
+        document.getElementById('noRegistrosMessage').style.display = 'none';
+        registros.forEach(function(registro) {
+            var row = tbody.insertRow();
+            row.insertCell(0).textContent = registro.fechaRecepcion;
+            row.insertCell(1).textContent = registro.numeroRequisicion;
+            row.insertCell(2).textContent = registro.entregaSubdireccion;
+            row.insertCell(3).textContent = registro.reciboSubdireccion;
+            row.insertCell(4).textContent = registro.entregaDireccion;
+            row.insertCell(5).textContent = registro.reciboDireccion;
+            row.insertCell(6).textContent = registro.observaciones;
+            row.insertCell(7).textContent = registro.departamentoEntregado;
+            var actionsCell = row.insertCell(8);
+            var editarButton = document.createElement('button');
+            editarButton.textContent = 'Editar';
+
+            editarButton.addEventListener('click', function() {
+                editarRegistro(registro.numeroRequisicion);
+            });
+            actionsCell.appendChild(editarButton);
+        });
+    }
+}
+
+// Función para editar un registro
+function editarRegistro(numeroRequisicion) {
+    // Redirigir a la página de edición con el número de requisición como parámetro
+    window.location.href = 'PlaneacionEdit.html?numeroRequisicion=' + encodeURIComponent(numeroRequisicion);
+}
+
+// Llamada a la función para cargar los registros cuando la página se carga por primera vez
+window.onload = cargarRegistros;
+
+
+function eliminarRegistro(numeroRequisicion) {
+    // Implementa la lógica para eliminar el registro con el número de requisición dado
 }
