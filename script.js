@@ -142,9 +142,7 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById("message").textContent = "Datos guardados correctamente.";
 
         });
-    } else {
-        console.error("No se encontró el botón de guardarDatos en el DOM.");
-    }
+    } 
 });
 
 
@@ -431,55 +429,110 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-// Modificar - ver registros
-document.addEventListener("DOMContentLoaded", function() {
-    mostrarRegistros();
+
+// Cargar registros al cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+    cargarRegistros();
 });
 
-// admin_registros.js
-
-// Función para cargar los registros desde el almacenamiento local y mostrarlos en la tabla
+// Función para cargar los registros desde el local storage y mostrarlos en la tabla
 function cargarRegistros() {
     var registros = JSON.parse(localStorage.getItem('registros')) || [];
     var tbody = document.getElementById('registrosBody');
     tbody.innerHTML = '';
 
-    if (registros.length === 0) {
-        document.getElementById('noRegistrosMessage').style.display = 'block';
-    } else {
-        document.getElementById('noRegistrosMessage').style.display = 'none';
-        registros.forEach(function(registro) {
-            var row = tbody.insertRow();
-            row.insertCell(0).textContent = registro.fechaRecepcion;
-            row.insertCell(1).textContent = registro.numeroRequisicion;
-            row.insertCell(2).textContent = registro.entregaSubdireccion;
-            row.insertCell(3).textContent = registro.reciboSubdireccion;
-            row.insertCell(4).textContent = registro.entregaDireccion;
-            row.insertCell(5).textContent = registro.reciboDireccion;
-            row.insertCell(6).textContent = registro.observaciones;
-            row.insertCell(7).textContent = registro.departamentoEntregado;
-            var actionsCell = row.insertCell(8);
-            var editarButton = document.createElement('button');
-            editarButton.textContent = 'Editar';
-
-            editarButton.addEventListener('click', function() {
-                editarRegistro(registro.numeroRequisicion);
-            });
-            actionsCell.appendChild(editarButton);
+    registros.forEach(function(registro) {
+        var row = tbody.insertRow();
+        row.insertCell(0).textContent = registro.fechaRecepcion;
+        row.insertCell(1).textContent = registro.numeroRequisicion;
+        row.insertCell(2).textContent = registro.entregaSubdireccion;
+        row.insertCell(3).textContent = registro.reciboSubdireccion;
+        row.insertCell(4).textContent = registro.entregaDireccion;
+        row.insertCell(5).textContent = registro.reciboDireccion;
+        row.insertCell(6).textContent = registro.observaciones;
+        row.insertCell(7).textContent = registro.departamentoEntregado;
+                
+         // Botón de editar
+        var editarButton = document.createElement('button');
+        editarButton.textContent = 'Editar';
+        editarButton.addEventListener('click', function() {
+            editarRegistro(registro.numeroRequisicion);
         });
+        row.insertCell(8).appendChild(editarButton);
+    });
+}
+
+// Función para redirigir a la página de edición con el número de requisición
+function editarRegistro(numeroRequisicion) {
+    window.location.href = 'PlaneacionEdit.html?numeroRequisicion=' + numeroRequisicion;
+}
+
+function cargarDatosRegistro() {
+    var numeroRequisicion = obtenerNumeroRequisicionDesdeURL();
+    var registros = JSON.parse(localStorage.getItem('registros')) || [];
+    var registro = registros.find(function(r) {
+    return r.numeroRequisicion === numeroRequisicion;
+});
+
+    if (registro) {
+        document.getElementById('fechaRecepcion').value = registro.fechaRecepcion;
+        document.getElementById('numeroRequisicion').value = registro.numeroRequisicion;
+        document.getElementById('entregaSubdireccion').value = registro.entregaSubdireccion;
+        document.getElementById('reciboSubdireccion').value = registro.reciboSubdireccion;
+        document.getElementById('entregaDireccion').value = registro.entregaDireccion;
+        document.getElementById('reciboDireccion').value = registro.reciboDireccion;
+        document.getElementById('observaciones').value = registro.observaciones;
+        document.getElementById('departamentoEntregado').value = registro.departamentoEntregado;
+        // Asigna los valores de los demás campos del formulario
+    } 
+}
+
+function obtenerNumeroRequisicionDesdeURL() {
+    var urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('numeroRequisicion');
+}
+
+function guardarCambios() {
+    // Capturar los datos modificados del formulario
+    var newData = {
+        fechaRecepcion: document.getElementById("fechaRecepcion").value,
+        numeroRequisicion: document.getElementById("numeroRequisicion").value,
+        entregaSubdireccion: document.getElementById("entregaSubdireccion").checked,
+        reciboSubdireccion: document.getElementById("reciboSubdireccion").checked,
+        entregaDireccion: document.getElementById("entregaDireccion").checked,
+        reciboDireccion: document.getElementById("reciboDireccion").checked,
+        observaciones: document.getElementById("observaciones").value,
+        departamentoEntregado: document.getElementById("departamentoEntregado").value
+    };
+
+    // Obtener el número de requisición desde la URL
+    var numeroRequisicion = obtenerNumeroRequisicionDesdeURL();
+
+    // Obtener los registros del almacenamiento local
+    var registros = JSON.parse(localStorage.getItem('registros')) || [];
+
+    // Encontrar el índice del registro correspondiente
+    var registroIndex = registros.findIndex(function(registro) {
+        return registro.numeroRequisicion === numeroRequisicion;
+    });
+
+    if (registroIndex !== -1) {
+        // Actualizar el registro con los nuevos datos
+        registros[registroIndex] = newData;
+
+        // Guardar los registros actualizados en el almacenamiento local
+        localStorage.setItem('registros', JSON.stringify(registros));
+
+        // Redirigir a la página PlaneacionModificar.html
+        window.location.href = 'PlaneacionModificar.html';
+    } else {
+        alert('No se encontró el registro.');
     }
 }
 
-// Función para editar un registro
-function editarRegistro(numeroRequisicion) {
-    // Redirigir a la página de edición con el número de requisición como parámetro
-    window.location.href = 'PlaneacionEdit.html?numeroRequisicion=' + encodeURIComponent(numeroRequisicion);
-}
 
-// Llamada a la función para cargar los registros cuando la página se carga por primera vez
-window.onload = cargarRegistros;
+document.addEventListener('DOMContentLoaded', function() {
+    cargarDatosRegistro();
+});
 
-
-function eliminarRegistro(numeroRequisicion) {
-    // Implementa la lógica para eliminar el registro con el número de requisición dado
-}
+        
