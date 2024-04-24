@@ -445,46 +445,53 @@ function cargarRegistros() {
         var row = tbody.insertRow();
         row.insertCell(0).textContent = registro.fechaRecepcion;
         row.insertCell(1).textContent = registro.numeroRequisicion;
-        row.insertCell(2).textContent = registro.entregaSubdireccion;
-        row.insertCell(3).textContent = registro.reciboSubdireccion;
-        row.insertCell(4).textContent = registro.entregaDireccion;
-        row.insertCell(5).textContent = registro.reciboDireccion;
+        row.insertCell(2).textContent = registro.entregaSubdireccion ? '✔️' : '❌'; // Utilizar una palomita o una X dependiendo del caso
+        row.insertCell(3).textContent = registro.reciboSubdireccion ? '✔️' : '❌'; // Utilizar una palomita o una X dependiendo del caso
+        row.insertCell(4).textContent = registro.entregaDireccion ? '✔️' : '❌'; // Utilizar una palomita o una X dependiendo del caso
+        row.insertCell(5).textContent = registro.reciboDireccion ? '✔️' : '❌'; // Utilizar una palomita o una X dependiendo del caso
         row.insertCell(6).textContent = registro.observaciones;
         row.insertCell(7).textContent = registro.departamentoEntregado;
                 
-         // Botón de editar
+        // Botón de editar
         var editarButton = document.createElement('button');
         editarButton.textContent = 'Editar';
         editarButton.addEventListener('click', function() {
             editarRegistro(registro.numeroRequisicion);
         });
         row.insertCell(8).appendChild(editarButton);
+
+        // Botón de eliminar
+        var eliminarButton = document.createElement('button');
+        eliminarButton.textContent = 'Eliminar';
+        eliminarButton.addEventListener('click', function() {
+            eliminarRegistro(registro.numeroRequisicion);
+        });
+        row.insertCell(9).appendChild(eliminarButton);
     });
 }
+
+
+// Función para eliminar un registro
+function eliminarRegistro(numeroRequisicion) {
+    // Mostrar un mensaje de confirmación antes de eliminar el registro
+    var confirmacion = confirm("¿Estás seguro de que deseas eliminar este registro?");
+    if (confirmacion) {
+        // Eliminar el registro del almacenamiento local
+        var registros = JSON.parse(localStorage.getItem('registros')) || [];
+        var nuevoRegistro = registros.filter(function(registro) {
+            return registro.numeroRequisicion !== numeroRequisicion;
+        });
+        localStorage.setItem('registros', JSON.stringify(nuevoRegistro));
+
+        // Volver a cargar los registros en la tabla
+        cargarRegistros();
+    }
+}
+
 
 // Función para redirigir a la página de edición con el número de requisición
 function editarRegistro(numeroRequisicion) {
     window.location.href = 'PlaneacionEdit.html?numeroRequisicion=' + numeroRequisicion;
-}
-
-function cargarDatosRegistro() {
-    var numeroRequisicion = obtenerNumeroRequisicionDesdeURL();
-    var registros = JSON.parse(localStorage.getItem('registros')) || [];
-    var registro = registros.find(function(r) {
-    return r.numeroRequisicion === numeroRequisicion;
-});
-
-    if (registro) {
-        document.getElementById('fechaRecepcion').value = registro.fechaRecepcion;
-        document.getElementById('numeroRequisicion').value = registro.numeroRequisicion;
-        document.getElementById('entregaSubdireccion').value = registro.entregaSubdireccion;
-        document.getElementById('reciboSubdireccion').value = registro.reciboSubdireccion;
-        document.getElementById('entregaDireccion').value = registro.entregaDireccion;
-        document.getElementById('reciboDireccion').value = registro.reciboDireccion;
-        document.getElementById('observaciones').value = registro.observaciones;
-        document.getElementById('departamentoEntregado').value = registro.departamentoEntregado;
-        // Asigna los valores de los demás campos del formulario
-    } 
 }
 
 function obtenerNumeroRequisicionDesdeURL() {
@@ -492,43 +499,84 @@ function obtenerNumeroRequisicionDesdeURL() {
     return urlParams.get('numeroRequisicion');
 }
 
-function guardarCambios() {
-    // Capturar los datos modificados del formulario
-    var newData = {
-        fechaRecepcion: document.getElementById("fechaRecepcion").value,
-        numeroRequisicion: document.getElementById("numeroRequisicion").value,
-        entregaSubdireccion: document.getElementById("entregaSubdireccion").checked,
-        reciboSubdireccion: document.getElementById("reciboSubdireccion").checked,
-        entregaDireccion: document.getElementById("entregaDireccion").checked,
-        reciboDireccion: document.getElementById("reciboDireccion").checked,
-        observaciones: document.getElementById("observaciones").value,
-        departamentoEntregado: document.getElementById("departamentoEntregado").value
-    };
-
-    // Obtener el número de requisición desde la URL
+function cargarDatosRegistro() {
     var numeroRequisicion = obtenerNumeroRequisicionDesdeURL();
+    var registros = JSON.parse(localStorage.getItem('registros')) || [];
+    var registro = registros.find(function(r) {
+        return r.numeroRequisicion === numeroRequisicion;
+    });
 
+    if (registro) {
+        document.getElementById('fechaRecepcion').value = registro.fechaRecepcion;
+        document.getElementById('numeroRequisicion').value = registro.numeroRequisicion;
+        document.getElementById('entregaSubdireccion').checked = registro.entregaSubdireccion;
+        document.getElementById('reciboSubdireccion').checked = registro.reciboSubdireccion;
+        document.getElementById('entregaDireccion').checked = registro.entregaDireccion;
+        document.getElementById('reciboDireccion').checked = registro.reciboDireccion;
+        document.getElementById('observaciones').value = registro.observaciones;
+        document.getElementById('departamentoEntregado').value = registro.departamentoEntregado;
+    } 
+}
+
+function actualizarRegistro(numeroRequisicion) {
     // Obtener los registros del almacenamiento local
     var registros = JSON.parse(localStorage.getItem('registros')) || [];
 
-    // Encontrar el índice del registro correspondiente
-    var registroIndex = registros.findIndex(function(registro) {
-        return registro.numeroRequisicion === numeroRequisicion;
+    // Encontrar el registro que coincide con el número de requisición proporcionado
+    var registroIndex = registros.findIndex(function(r) {
+        return r.numeroRequisicion === numeroRequisicion;
     });
 
+    // Verificar si se encontró el registro
     if (registroIndex !== -1) {
-        // Actualizar el registro con los nuevos datos
-        registros[registroIndex] = newData;
+        // Actualizar los valores del registro con los datos del formulario
+        registros[registroIndex].fechaRecepcion = document.getElementById('fechaRecepcion').value;
+        registros[registroIndex].numeroRequisicion = document.getElementById('numeroRequisicion').value;
+        registros[registroIndex].entregaSubdireccion = document.getElementById('entregaSubdireccion').checked;
+        registros[registroIndex].reciboSubdireccion = document.getElementById('reciboSubdireccion').checked;
+        registros[registroIndex].entregaDireccion = document.getElementById('entregaDireccion').checked;
+        registros[registroIndex].reciboDireccion = document.getElementById('reciboDireccion').checked;
+        registros[registroIndex].observaciones = document.getElementById('observaciones').value;
+        registros[registroIndex].departamentoEntregado = document.getElementById('departamentoEntregado').value;
 
-        // Guardar los registros actualizados en el almacenamiento local
+        // Actualizar el registro en el almacenamiento local
         localStorage.setItem('registros', JSON.stringify(registros));
 
-        // Redirigir a la página PlaneacionModificar.html
-        window.location.href = 'PlaneacionModificar.html';
+       // Limpiar el formulario
+        document.getElementById('editForm').reset();
+
+        // Ocultar el botón "Actualizar Registro"
+        document.getElementById('botonActualizar').style.display = 'none';
+
+        // Mostrar el mensaje de "Actualizado correctamente"
+        document.getElementById('mensajeActualizacion').style.display = 'block';
+
     } else {
-        alert('No se encontró el registro.');
+        // Manejar el caso donde no se encontró el registro
+        console.error('No se encontró el registro con el número de requisición proporcionado.');
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    cargarDatosRegistro();
+
+    var botonActualizarContainer = document.getElementById('botonActualizarContainer');
+
+    // Crear el botón para actualizar el registro
+    var actualizarButton = document.createElement('button');
+    actualizarButton.textContent = 'Actualizar Registro';
+    actualizarButton.setAttribute('id', 'botonActualizar');
+    botonActualizarContainer.appendChild(actualizarButton);
+
+    // Agregar evento click al botón
+    actualizarButton.addEventListener('click', function() {
+        var numeroRequisicion = obtenerNumeroRequisicionDesdeURL();
+        actualizarRegistro(numeroRequisicion);
+    });
+});
+
+
+
 
 
 document.addEventListener('DOMContentLoaded', function() {

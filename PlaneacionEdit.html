@@ -36,21 +36,28 @@
 <div class="container">
     <h1>Editar Registro de Planeación</h1>
     <form id="editForm">
-        <!-- Aquí van los campos del formulario -->
+
         <label for="fechaRecepcion">Fecha de Recepción:</label>
-        <input type="text" id="fechaRecepcion" name="fechaRecepcion" readonly><br>
-        <label for="numeroRequisicion">No. de Requisición:</label>
-        <input type="text" id="numeroRequisicion" name="numeroRequisicion" readonly><br>
+        <input type="date" id="fechaRecepcion" required><br>
+
+        <label for="numeroRequisicion">No. de requisición:</label>
+        <input type="text" id="numeroRequisicion" required><br>
+
         <label>Entrega por parte de subdirección:</label>
         <input type="checkbox" id="entregaSubdireccion"><br>
+
         <label>Recibo por parte de subdirección:</label>
         <input type="checkbox" id="reciboSubdireccion"><br>
+
         <label>Entrega por parte de dirección:</label>
         <input type="checkbox" id="entregaDireccion"><br>
+
         <label>Recibo por parte de dirección:</label>
         <input type="checkbox" id="reciboDireccion"><br>
+
         <label for="observaciones">Observaciones:</label>
-        <textarea id="observaciones" required></textarea><br>
+        <textarea id="observaciones"></textarea><br>
+
         <select id="departamentoEntregado" name="departamentoEntregado" required>
             <option value="">Seleccionar departamento</option>
             <option value="Sistemas">Sistemas</option>
@@ -58,15 +65,17 @@
             <option value="Metal mecánica">Metal mecánica</option>
             <option value="Manofactura">Manofactura</option>
             <!-- Agregar más opciones según sea necesario -->
-        </select><br>
-        <button type="submit">Guardar Cambios</button>
-        <button type="button" onclick="window.location.href = 'PlaneacionModificar.html';">Cancelar</button>
+        </select><br><br>
+        <div id="mensajeActualizacion" style="display: none;">
+            <p>Actualizado correctamente</p>
+        </div>
+        <div id="botonActualizarContainer"></div>
+        <button type="button" onclick="window.location.href = 'PlaneacionModificar.html';">Atras</button>
     </form>
 </div>
 
 <script src="script.js"></script>
 
-	// Pie de página
     <footer>
         &copy;2024 Heileen Mena | All Rights Reserved
     </footer>
